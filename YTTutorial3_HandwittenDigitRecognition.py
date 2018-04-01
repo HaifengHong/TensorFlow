@@ -21,7 +21,9 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10])) # 1行10列
 prediction = tf.nn.softmax(tf.matmul(x,W)+b) # 用softmax作激活函数
 # 二次代价函数
-loss = tf.reduce_mean(tf.square(y-prediction))
+# loss = tf.reduce_mean(tf.square(y-prediction))
+# softmax交叉熵代价函数，作对比
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y,logits=prediction)) # 返回的是个向量，注意求平均才能得到loss（根据交叉熵代价函数公式）。疑问：用tf.reduce_sum为何结果很差？
 # 使用梯度下降法
 train_step = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
 # 初始化变量
@@ -38,3 +40,49 @@ with tf.Session() as sess:
             sess.run(train_step,feed_dict={x:batch_xs,y:batch_ys})
         acc = sess.run(accuracy,feed_dict={x:mnist.test.images,y:mnist.test.labels}) # 求每次epoch的准确率，用测试集的图片和标签
         print('Iter ' + str(epoch) + ',Testing Accuracy ' + str(acc))
+
+# 用二次代价函数预测结果：
+# Iter 0,Testing Accuracy 0.831
+# Iter 1,Testing Accuracy 0.8706
+# Iter 2,Testing Accuracy 0.8812
+# Iter 3,Testing Accuracy 0.8883
+# Iter 4,Testing Accuracy 0.8943
+# Iter 5,Testing Accuracy 0.8976
+# Iter 6,Testing Accuracy 0.8991
+# Iter 7,Testing Accuracy 0.9012
+# Iter 8,Testing Accuracy 0.9035
+# Iter 9,Testing Accuracy 0.9054
+# Iter 10,Testing Accuracy 0.9067
+# Iter 11,Testing Accuracy 0.9073
+# Iter 12,Testing Accuracy 0.9081
+# Iter 13,Testing Accuracy 0.9089
+# Iter 14,Testing Accuracy 0.9093
+# Iter 15,Testing Accuracy 0.9104
+# Iter 16,Testing Accuracy 0.9118
+# Iter 17,Testing Accuracy 0.9121
+# Iter 18,Testing Accuracy 0.9124
+# Iter 19,Testing Accuracy 0.9134
+# Iter 20,Testing Accuracy 0.9137
+
+# 用softmax交叉熵代价函数预测结果（对比得知，预测结果比二次代价函数要好）：
+# Iter 0,Testing Accuracy 0.847
+# Iter 1,Testing Accuracy 0.8951
+# Iter 2,Testing Accuracy 0.9021
+# Iter 3,Testing Accuracy 0.9058
+# Iter 4,Testing Accuracy 0.9079
+# Iter 5,Testing Accuracy 0.9111
+# Iter 6,Testing Accuracy 0.9118
+# Iter 7,Testing Accuracy 0.913
+# Iter 8,Testing Accuracy 0.9153
+# Iter 9,Testing Accuracy 0.9164
+# Iter 10,Testing Accuracy 0.9181
+# Iter 11,Testing Accuracy 0.9178
+# Iter 12,Testing Accuracy 0.9188
+# Iter 13,Testing Accuracy 0.9195
+# Iter 14,Testing Accuracy 0.9207
+# Iter 15,Testing Accuracy 0.9206
+# Iter 16,Testing Accuracy 0.9196
+# Iter 17,Testing Accuracy 0.9216
+# Iter 18,Testing Accuracy 0.9213
+# Iter 19,Testing Accuracy 0.9213
+# Iter 20,Testing Accuracy 0.9218

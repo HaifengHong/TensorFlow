@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
-#####MNIST数据集分类简单版本(手写数字识别)
+#####MNIST数据集分类简单版本(手写数字识别)（二次代价函数与交叉熵代价函数作对比）
 
 # 载入数据集
 # 一个one-hot向量除了某一位的数字是1以外其余各维度数字都是0。

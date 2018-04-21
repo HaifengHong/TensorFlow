@@ -17,7 +17,7 @@ loss = 0.5 * tf.reduce_mean(tf.square(y_data - y)) # 误差的平方再平均，
 # 定义使用不同方法进行训练的优化器
 # optimizer = tf.train.GradientDescentOptimizer(0.2) # 学习率0.2
 # optimizer = tf.train.AdadeltaOptimizer(0.2)
-optimizer = tf.train.MomentumOptimizer(0.2, 0.9) # 冲量通常设为0.9
+optimizer = tf.train.MomentumOptimizer(0.2, 0.9) # 动量通常设为0.9
 
 # 定义一个训练，最小化代价函数
 train = optimizer.minimize(loss)

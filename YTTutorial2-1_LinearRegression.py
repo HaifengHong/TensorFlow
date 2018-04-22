@@ -27,7 +27,7 @@ init = tf.global_variables_initializer() # 注意加tf.
 
 with tf.Session() as sess:
     sess.run(init)
-    for step in range(201): # 迭代200次，注意是range(201)
+    for step in range(201): # 迭代201次，0~201,
         sess.run(train)
         if step % 20 == 0:
             print(step, sess.run([k,b])) # 每迭代20次看一下结果 # 注意表达方式sess.run([k,b])

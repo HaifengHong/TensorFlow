@@ -37,15 +37,15 @@ L2_drop = tf.nn.dropout(L2, keep_prob)
 # b3 = tf.zeros([1, 10])
 W3 = tf.Variable(tf.truncated_normal([300, 10], stddev=0.1))
 b3 = tf.Variable(tf.zeros([10]))
-L3 = tf.matmul(L2_drop, W3) + b3
+prediction = tf.matmul(L2_drop, W3) + b3
 
 # loss = tf.nn.softmax_cross_entropy_with_logits(L3, y)
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=L3))
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=prediction))
 
 train = tf.train.AdamOptimizer(lr).minimize(loss)
 
 # bool_result = tf.equal(tf.argmax(L3, 1), tf.argmax(y, 1))
-bool_result = tf.equal(tf.argmax(y, 1), tf.argmax(L3, 1))
+bool_result = tf.equal(tf.argmax(y, 1), tf.argmax(prediction, 1))
 accuracy = tf.reduce_mean(tf.cast(bool_result, tf.float32))
 
 with tf.Session() as sess:
